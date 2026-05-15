@@ -1,0 +1,38 @@
+[worldserver]
+
+###################################################################################################
+# MOD TRAVELER'S RECALL
+#
+
+#
+#    Enable Traveler's Recall
+#       Description: Enable or disable the Traveler's Recall module.
+#       Default:        1 (enabled)
+
+TravelersRecall.Enable = 1
+
+#
+#    Teleportation Restrictions
+#       Description: Configure the conditions under which players can use Traveler's Recall.
+#       Default:        0 (not allowed)
+
+TravelersRecall.CanTeleport.InFlight = 0
+TravelersRecall.CanTeleport.WhileStealthed = 0
+TravelersRecall.CanTeleport.InCombat = 0
+TravelersRecall.CanTeleport.WhileDead = 0
+TravelersRecall.CanTeleport.InBattleground = 0
+TravelersRecall.CanTeleport.InDungeonOrRaid = 0
+
+#
+#    Cooldown Settings
+#       Description: Configure the cooldown settings for Traveler's Recall.
+#       Default:        1 (use default cooldown), 3600 seconds (1 hour )
+#
+#       Note: You can specify a custom cooldown duration in seconds for
+#       each location in the Database.
+
+TravelersREcall.UseDefaultCooldown = 1
+TravelersRecall.DefaultCooldown = 3600
+
+#
+###################################################################################################
