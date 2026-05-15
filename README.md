@@ -18,6 +18,10 @@ Progressive fast-travel system for AzerothCore.
 - Custom unlockable locations
 - GM management commands
 
+## This module need an Addon
+ - Clone this addon to your client addon folder
+ - `https://github.com/NecroHome/TravelersRecall`
+
 ## Installation
 
 - Clone the repository into your `modules` folder
@@ -68,22 +72,86 @@ instead of the default:
 3600 (1 hour)
 ```
 
-### Custom Locations
+### Adding Custom Locations
 
-You can add custom unlockable locations.
+Custom teleport locations can be added directly into:
 
-Use:
+```text
+acore_world.custom_travelers_recall_locations
+```
+
+Example:
+
+```sql
+INSERT IGNORE INTO acore_world.custom_travelers_recall_locations
+(area_id, name, map_id, position_x, position_y, position_z, orientation, faction, icon, required_level, cooldown)
+VALUES
+(159, 'Undercity', 0, 2259.25, 290.43, 34.1137, 2.503233, 2, 'Interface\\Icons\\Spell_Arcane_TeleportUnderCity', 0, 0);
+```
+
+### Column Explanation
+
+| Column | Description |
+|---|---|
+| `area_id` | Area ID used to detect when the player discovers the location |
+| `name` | Name displayed in the addon window |
+| `map_id` | Destination map ID |
+| `position_x` | Teleport X coordinate |
+| `position_y` | Teleport Y coordinate |
+| `position_z` | Teleport Z coordinate |
+| `orientation` | Player facing direction after teleport |
+| `faction` | Faction restriction |
+| `icon` | WoW icon path displayed in the addon |
+| `required_level` | Not used (yet) |
+| `cooldown` | Individual cooldown in seconds |
+
+### Faction Values
+
+| Value | Faction |
+|---|---|
+| `0` | Neutral |
+| `1` | Alliance |
+| `2` | Horde |
+
+### Cooldown Behavior
+
+If `cooldown` is:
+
+- `0`
+  - the global module cooldown configuration will be used
+- greater than `0`
+  - the location will use its own cooldown value
+- the cooldown value is in `seconds`
+
+Example:
+
+```text
+3600 = 1 hour
+7200 = 2 hours
+```
+
+### How To Retrieve Area Information
+
+Use the GM command:
 
 ```text
 .gps
 ```
 
-to retrieve the required area information.
+while standing in the desired location.
 
-After inserting the location into the database:
+This provides:
 
-- no worldserver restart is required
-- players already inside that area must leave and re-enter it before the teleport is unlocked
+- Area ID
+- Map ID
+- Coordinates
+- Orientation
+
+### Notes
+
+- No worldserver restart is required after inserting new locations
+- Players already inside the area must leave and re-enter it before the teleport unlocks
+- Icons use the standard World of Warcraft client icon paths
 
 ## Author
 
