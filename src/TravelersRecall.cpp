@@ -22,63 +22,13 @@ class TravelersRecallPlayerScript : public PlayerScript
 
     public: TravelersRecallPlayerScript() : PlayerScript("TravelersRecallPlayerScript") { }
 
-
-    void OnPlayerLogin(Player* player) override
-    {
-        if (player->GetSession()->IsBot())
-        {
-            return;
-        }
-
-        QueryResult unlocks = CharacterDatabase.Query(
-            "SELECT location_id "
-            "FROM custom_travelers_recall_unlocks "
-            "WHERE guid = {}",
-            player->GetGUID().GetCounter()
-        );
-
-        if (!unlocks)
-        {
-            return;
-        }
-
-        do
-        {
-            Field* unlockFields = unlocks->Fetch();
-
-            uint32 locationId = unlockFields[0].Get<uint32>();
-
-            QueryResult location = WorldDatabase.Query(
-                "SELECT name, icon "
-                "FROM custom_travelers_recall_locations "
-                "WHERE id = {}",
-                locationId
-            );
-
-            if (!location)
-            {
-                continue;
-            }
-
-            Field* locationFields = location->Fetch();
-
-            std::string locationName = locationFields[0].Get<std::string>();
-            std::string icon = locationFields[1].Get<std::string>();
-
-            std::string message = Acore::StringFormat(
-                "TR_LIST:{}:{}:{}",
-                locationId,
-                locationName,
-                icon
-            );
-
-            ChatHandler(player->GetSession()).SendSysMessage(message.c_str());
-
-        } while (unlocks->NextRow());
-    }
-
     void OnPlayerUpdateArea(Player* player, uint32 oldArea, uint32 newArea) override
     {
+        if (player->isDead()) 
+        {
+            return;
+        }
+
         if (oldArea == newArea)
         {
             return;
@@ -180,6 +130,7 @@ class TravelersRecallCommandScript : public CommandScript
     {
         static Acore::ChatCommands::ChatCommandTable teleportTable =
         {
+            { "list", HandleListCommand, SEC_PLAYER, Acore::ChatCommands::Console::No },
             { "teleport", HandleTeleportCommand, SEC_PLAYER, Acore::ChatCommands::Console::No }
         };
 
@@ -189,6 +140,59 @@ class TravelersRecallCommandScript : public CommandScript
         };
 
         return commandTable;
+    }
+
+    static bool HandleListCommand(ChatHandler* handler, char const* args)
+    {
+        Player* player = handler->GetPlayer();
+
+        QueryResult unlocks = CharacterDatabase.Query(
+            "SELECT location_id "
+            "FROM custom_travelers_recall_unlocks "
+            "WHERE guid = {}",
+            player->GetGUID().GetCounter()
+        );
+
+        if (!unlocks)
+        {
+            return true;
+        }
+
+        do
+        {
+            Field* unlockFields = unlocks->Fetch();
+
+            uint32 locationId = unlockFields[0].Get<uint32>();
+
+            QueryResult location = WorldDatabase.Query(
+                "SELECT name, icon "
+                "FROM custom_travelers_recall_locations "
+                "WHERE id = {}",
+                locationId
+            );
+
+            if (!location)
+            {
+                continue;
+            }
+
+            Field* locationFields = location->Fetch();
+
+            std::string locationName = locationFields[0].Get<std::string>();
+            std::string icon = locationFields[1].Get<std::string>();
+
+            std::string message = Acore::StringFormat(
+                "TR_LIST:{}:{}:{}",
+                locationId,
+                locationName,
+                icon
+            );
+
+            ChatHandler(player->GetSession()).SendSysMessage(message.c_str());
+
+        } while (unlocks->NextRow());
+
+        return true;
     }
 
     static bool HandleTeleportCommand(ChatHandler* handler, char const* args)
@@ -277,6 +281,39 @@ class TravelersRecallCommandScript : public CommandScript
         {
             handler->SendSysMessage("Traveler's Recall: teleportation failed.");
             return false;
+        }
+        else
+        {
+            if (Group* group = player->GetGroup())
+            {
+                for (GroupReference* itr = group->GetFirstMember(); itr != nullptr; itr = itr->next())
+                {
+                    Player* partyMember = itr->GetSource();
+
+                    if (!partyMember) 
+                    {
+                        continue;
+                    }
+
+                    if (!partyMember->GetSession())
+                    {
+                        continue;
+                    }
+
+                    if (!partyMember->IsInWorld())
+                    {
+                        continue;
+                    }
+
+                    if (partyMember->GetSession()->IsBot()) 
+                    {
+                        if(!partyMember->TeleportTo(mapId, x, y, z, o))
+                        {
+                            handler->SendSysMessage("Traveler's Recall: party bot teleportation failed.");
+                        }
+                    }
+                }
+            }
         }
 
 
