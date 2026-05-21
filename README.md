@@ -135,3 +135,10 @@ This provides:
 ## Author
 
 NecroHome
+
+Change Log
+
+20/05/2026:
+  - Now BOTS in your party will teleport with you.
+  - Fixed discovering placed while dead
+  - New locations added ( Brill, Razor Hill, Camp Taurajo )
