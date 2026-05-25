@@ -34,11 +34,6 @@ class TravelersRecallPlayerScript : public PlayerScript
             return;
         }
 
-        if (player->GetSession()->IsBot())
-        {
-            return;
-        }
-
         if (!sConfigMgr->GetOption<bool>("TravelersRecall.Enable", false))
         {
             return;
@@ -61,16 +56,19 @@ class TravelersRecallPlayerScript : public PlayerScript
         uint8 faction = locationFields[2].Get<uint8>();
         std::string icon = locationFields[3].Get<std::string>();
 
-        TeamId playerTeam = player->GetTeamId();
-
-        if (faction == 1 && playerTeam != TEAM_ALLIANCE) 
+        if (!player->IsGameMaster()) 
         {
-            return;
-        }
+            TeamId playerTeam = player->GetTeamId();
 
-        if (faction == 2 && playerTeam != TEAM_HORDE) 
-        {
-            return;
+            if (faction == 1 && playerTeam != TEAM_ALLIANCE) 
+            {
+                return;
+            }
+
+            if (faction == 2 && playerTeam != TEAM_HORDE) 
+            {
+                return;
+            }
         }
 
         QueryResult unlockResult = CharacterDatabase.Query(
