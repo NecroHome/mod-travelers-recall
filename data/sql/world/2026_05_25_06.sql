@@ -12,6 +12,6 @@ INSERT IGNORE INTO acore_world.custom_travelers_recall_locations
 (area_id, name, map_id, position_x, position_y, position_z, orientation, faction, icon, required_level, cooldown)
 VALUES(3584, 'Blood Watch', 530, -1944.5, -11873.7, 49.3983, 6.04835, 1, 'Interface\\Icons\\Spell_Arcane_TeleportExodar', 0, 0);
 
-INSERT INTO acore_world.custom_travelers_recall_locations
+INSERT IGNORE INTO acore_world.custom_travelers_recall_locations
 (area_id, name, map_id, position_x, position_y, position_z, orientation, faction, icon, required_level, cooldown)
 VALUES(186, 'Dolanaar', 1, 9848.37, 966.953, 1306.38, 3.77457, 1, 'Interface\\Icons\\Spell_Arcane_TeleportDarnassus', 0, 0);
