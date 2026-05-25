@@ -1,29 +1,29 @@
 INSERT IGNORE INTO acore_world.custom_travelers_recall_locations
-(area_IGNORE INTOname, map_IGNORE INTOposition_x, position_y, position_z, orientation, faction, icon, required_level, cooldown)
+(area_id, name, map_id, position_x, position_y, position_z, orientation, faction, icon, required_level, cooldown)
 VALUES(228, 'The Sepulcher', 0, 504.534, 1539.08, 129.502, 1.35812, 2, 'Interface\\Icons\\Achievement_Zone_Silverpine_01', 0, 0);
 
 INSERT IGNORE INTO acore_world.custom_travelers_recall_locations
-(area_IGNORE INTOname, map_IGNORE INTOposition_x, position_y, position_z, orientation, faction, icon, required_level, cooldown)
+(area_id, name, map_id, position_x, position_y, position_z, orientation, faction, icon, required_level, cooldown)
 VALUES(131, 'Kharanos', 0, -5597.31, -483.398, 396.981, 3.17566, 1, 'Interface\\Icons\\Spell_Arcane_TeleportIronForge', 0, 0);
 
 INSERT IGNORE INTO acore_world.custom_travelers_recall_locations
-(area_IGNORE INTOname, map_IGNORE INTOposition_x, position_y, position_z, orientation, faction, icon, required_level, cooldown)
+(area_id, name, map_id, position_x, position_y, position_z, orientation, faction, icon, required_level, cooldown)
 VALUES(144, 'Thelsamar', 0, -5352.54, -2948.53, 323.78, 5.34258, 1, 'Interface\\Icons\\Achievement_Zone_LochModan_01', 0, 0);
 
 INSERT IGNORE INTO acore_world.custom_travelers_recall_locations
-(IGNORE INTOarea_IGNORE INTOname, map_IGNORE INTOposition_x, position_y, position_z, orientation, faction, icon, required_level, cooldown)
+(area_id, name, map_id, position_x, position_y, position_z, orientation, faction, icon, required_level, cooldown)
 VALUES(496, 'Brackenwall Village', 1, -3130.67, -2908.43, 34.0976, 1.42798, 2, 'Interface\\Icons\\Achievement_Zone_Wetlands_01', 0, 0);
 
 INSERT IGNORE INTO acore_world.custom_travelers_recall_locations
-(IGNORE INTOarea_IGNORE INTOname, map_IGNORE INTOposition_x, position_y, position_z, orientation, faction, icon, required_level, cooldown)
+(area_id, name, map_id, position_x, position_y, position_z, orientation, faction, icon, required_level, cooldown)
 VALUES(484, 'Freewind Post', 1, -5431.78, -2449.38, 89.2848, 2.32854, 2, 'Iterface\\Icons\\Achievement_Zone_ThousandNeedles_01', 0, 0);
 
 INSERT IGNORE INTO acore_world.custom_travelers_recall_locations
-(IGNORE INTOarea_IGNORE INTOname, map_IGNORE INTOposition_x, position_y, position_z, orientation, faction, icon, required_level, cooldown)
+(area_id, name, map_id, position_x, position_y, position_z, orientation, faction, icon, required_level, cooldown)
 VALUES(2240, 'Mirage Raceway', 1, -6221.35, -3927.64, -58.7501, 0.757735, 2, 'Iterface\\Icons\\Achievement_Zone_Tanaris_01', 0, 0);
 
 INSERT IGNORE INTO acore_world.custom_travelers_recall_locations
-(IGNORE INTOarea_IGNORE INTOname, map_IGNORE INTOposition_x, position_y, position_z, orientation, faction, icon, required_level, cooldown)
+(area_id, name, map_id, position_x, position_y, position_z, orientation, faction, icon, required_level, cooldown)
 VALUES(87, 'Goldshire', 0, -9448.55, 68.236, 56.3225, 2.1115, 1, 'Interface\\Icons\\Achievement_Zone_ElwynnForest', 0, 0);
 
 INSERT IGNORE INTO acore_world.custom_travelers_recall_locations
