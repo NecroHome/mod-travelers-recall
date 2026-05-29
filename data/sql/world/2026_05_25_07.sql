@@ -12,4 +12,8 @@ INNER JOIN custom_travelers_recall_locations t2
 ON t1.area_id = t2.area_id AND t1.id > t2.id;
 
 -- New unique key, area_id
-ALTER TABLE acore_world.custom_travelers_recall_locations ADD CONSTRAINT custom_travelers_recall_locations_unique UNIQUE KEY (area_id);
+DROP INDEX IF EXISTS acore_world.custom_travelers_recall_locations_unique
+ON custom_travelers_recall_locations;
+
+ALTER TABLE acore_world.custom_travelers_recall_locations
+ADD UNIQUE KEY custom_travelers_recall_locations_unique (area_id);

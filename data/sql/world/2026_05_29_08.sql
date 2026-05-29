@@ -1,4 +1,7 @@
 -- New Unique KEY so players can't unlock the same place twice
+DROP INDEX IF EXISTS uq_guid_location
+ON acore_characters.custom_travelers_recall_unlocks;
+
 ALTER TABLE acore_characters.custom_travelers_recall_unlocks
 ADD UNIQUE KEY uq_guid_location (guid, location_id);
 
