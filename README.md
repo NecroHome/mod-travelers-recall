@@ -138,7 +138,16 @@ NecroHome
 
 Change Log
 
-20/05/2026:
-  - Now BOTS in your party will teleport with you.
-  - Fixed discovering placed while dead
-  - New locations added ( Brill, Razor Hill, Camp Taurajo )
+### 29/05/2026
+
+* Added new locations.
+* Added GM commands:
+
+  * `.tr learn {area_id}`
+  * `.tr learn all`
+
+### 20/05/2026
+
+* Added bot party teleport support.
+* Fixed location discovery while dead.
+* Added Brill, Razor Hill, and Camp Taurajo.
