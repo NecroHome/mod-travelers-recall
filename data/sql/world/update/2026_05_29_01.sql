@@ -22,9 +22,6 @@ PREPARE stmt FROM @sql;
 EXECUTE stmt;
 DEALLOCATE PREPARE stmt;
 
-ALTER TABLE acore_world.custom_travelers_recall_locations
-ADD UNIQUE KEY custom_travelers_recall_locations_unique (area_id);
-
 SET @exists = (
     SELECT COUNT(*)
     FROM information_schema.statistics
@@ -42,9 +39,6 @@ SET @sql = IF(
 PREPARE stmt FROM @sql;
 EXECUTE stmt;
 DEALLOCATE PREPARE stmt;
-
-ALTER TABLE acore_characters.custom_travelers_recall_unlocks
-ADD UNIQUE KEY uq_guid_location (guid, location_id);
 
 -- Removing duplicates
 USE acore_world;
