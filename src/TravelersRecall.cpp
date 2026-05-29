@@ -129,6 +129,8 @@ class TravelersRecallCommandScript : public CommandScript
         static Acore::ChatCommands::ChatCommandTable teleportTable =
         {
             { "list", HandleListCommand, SEC_PLAYER, Acore::ChatCommands::Console::No },
+            { "learn", HandleLearnCommand, SEC_GAMEMASTER, Acore::ChatCommands::Console::No },
+            { "learn all", HandleLearnAllCommand, SEC_GAMEMASTER, Acore::ChatCommands::Console::No },
             { "teleport", HandleTeleportCommand, SEC_PLAYER, Acore::ChatCommands::Console::No }
         };
 
@@ -333,6 +335,102 @@ class TravelersRecallCommandScript : public CommandScript
             "Traveler's Recall: teleported to {}",
             locationName
         );
+
+        return true;
+    }
+
+    static bool HandleLearnCommand(ChatHandler* handler, char const* args) 
+    {
+        Player* target = handler->getSelectedPlayerOrSelf();
+
+        if (!target) 
+        {
+            return false;
+        }
+
+        if (!args || !*args)
+        {
+            handler->SendSysMessage("Traveler's Recall: location id required.");
+            return true;
+        }
+
+        uint32 area_id = atoi(args);
+
+        if (area_id == 0)
+        {
+            handler->SendSysMessage("Traveler's Recall: invalid area id.");
+            return true;
+        }
+
+        uint32 faction = target->GetTeamId() == TEAM_ALLIANCE ? 1 : 2;
+        
+        QueryResult result = WorldDatabase.Query(
+            "SELECT id "
+            "FROM custom_travelers_recall_locations "
+            "WHERE faction IN (0, {}) "
+            "AND area_id = {}",
+            faction,
+            area_id
+        );
+
+        if (!result)
+        {
+            handler->SendSysMessage("Traveler's Recall: location not found.");
+            return true;
+        }
+
+        uint32 locationId = result->Fetch()[0].Get<uint32>();
+
+        CharacterDatabase.Execute(
+            "INSERT IGNORE INTO custom_travelers_recall_unlocks "
+            "(guid, location_id, unlocked_at, cooldown_end) "
+            "VALUES ({}, {}, NOW(), 0)",
+            target->GetGUID().GetCounter(),
+            locationId
+        );
+
+        handler->SendSysMessage("Traveler's Recall: location unlocked.");
+        return true;
+    }
+
+    static bool HandleLearnAllCommand(ChatHandler* handler, char const* args) 
+    {
+        Player* target = handler->getSelectedPlayerOrSelf();
+
+        if (!target)
+        {
+            return false;
+        }
+
+        uint32 faction = target->GetTeamId() == TEAM_ALLIANCE ? 1 : 2;
+
+        QueryResult result = WorldDatabase.Query(
+            "SELECT id "
+            "FROM custom_travelers_recall_locations "
+            "WHERE faction IN (0, {})",
+            faction
+        );
+
+        if (!result)
+            return false;
+
+        uint32 guid = target->GetGUID().GetCounter();
+
+        do
+        {
+            uint32 locationId = result->Fetch()[0].Get<uint32>();
+
+            CharacterDatabase.Execute(
+                "INSERT IGNORE INTO custom_travelers_recall_unlocks "
+                "(guid, location_id, unlocked_at, cooldown_end) "
+                "VALUES ({}, {}, NOW(), 0)",
+                guid,
+                locationId
+            );
+
+        } while (result->NextRow());
+
+        handler->SendSysMessage("Traveler's Recall: all locations unlocked.");
 
         return true;
     }
