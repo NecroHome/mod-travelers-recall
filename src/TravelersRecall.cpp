@@ -129,7 +129,7 @@ class TravelersRecallCommandScript : public CommandScript
         static Acore::ChatCommands::ChatCommandTable teleportTable =
         {
             { "list", HandleListCommand, SEC_PLAYER, Acore::ChatCommands::Console::No },
-            { "learn", HandlerLearnCommand, SEC_GAMEMASTER, Acore::ChatCommands::Console::No },
+            { "learn", HandleLearnCommand, SEC_GAMEMASTER, Acore::ChatCommands::Console::No },
             { "learn all", HandleLearnAllCommand, SEC_GAMEMASTER, Acore::ChatCommands::Console::No },
             { "teleport", HandleTeleportCommand, SEC_PLAYER, Acore::ChatCommands::Console::No }
         };
