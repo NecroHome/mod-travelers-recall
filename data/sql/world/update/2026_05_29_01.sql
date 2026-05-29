@@ -4,8 +4,47 @@ SET area_id = 3557, position_x = -3965.7, position_y = -11653.6, position_z = -1
 WHERE area_id = 1357 and map_id = 530;
 
 -- New unique keys
+SET @exists = (
+    SELECT COUNT(*)
+    FROM information_schema.statistics
+    WHERE table_schema = 'acore_world'
+      AND table_name = 'custom_travelers_recall_locations'
+      AND index_name = 'custom_travelers_recall_locations_unique'
+);
+
+SET @sql = IF(
+    @exists = 0,
+    'ALTER TABLE acore_world.custom_travelers_recall_locations ADD UNIQUE KEY custom_travelers_recall_locations_unique (area_id)',
+    'SELECT "Index already exists"'
+);
+
+PREPARE stmt FROM @sql;
+EXECUTE stmt;
+DEALLOCATE PREPARE stmt;
+
 ALTER TABLE acore_world.custom_travelers_recall_locations
 ADD UNIQUE KEY custom_travelers_recall_locations_unique (area_id);
+
+SET @exists = (
+    SELECT COUNT(*)
+    FROM information_schema.statistics
+    WHERE table_schema = 'acore_characters'
+      AND table_name = 'custom_travelers_recall_unlocks'
+      AND index_name = 'uq_guid_location'
+);
+
+SET @sql = IF(
+    @exists = 0,
+    'ALTER TABLE acore_characters.custom_travelers_recall_unlocks ADD UNIQUE KEY uq_guid_location (guid, location_id)',
+    'SELECT "Index already exists"'
+);
+
+PREPARE stmt FROM @sql;
+EXECUTE stmt;
+DEALLOCATE PREPARE stmt;
+
+ALTER TABLE acore_characters.custom_travelers_recall_unlocks
+ADD UNIQUE KEY uq_guid_location (guid, location_id);
 
 -- Removing duplicates
 USE acore_world;
@@ -14,16 +53,6 @@ DELETE t1
 FROM custom_travelers_recall_locations t1
 INNER JOIN custom_travelers_recall_locations t2
 ON t1.area_id = t2.area_id AND t1.id > t2.id;
-
--- New unique key, area_id
-
-DROP INDEX IF EXISTS uq_guid_location
-ON acore_characters.custom_travelers_recall_unlocks;
-
-ALTER TABLE acore_characters.custom_travelers_recall_unlocks
-ADD UNIQUE KEY uq_guid_location (guid, location_id);
-
--- New Locations
 
 -- New Locations
 INSERT IGNORE INTO acore_world.custom_travelers_recall_locations
