@@ -21,7 +21,7 @@ INSERT IGNORE INTO acore_world.custom_travelers_recall_locations
 VALUES(1657, 'Darnassus', 1, 9951.52, 2280.32, 1341.39, 1.59, 1, 'Interface\\Icons\\Spell_Arcane_TeleportDarnassus', 0, 0);
 INSERT IGNORE INTO acore_world.custom_travelers_recall_locations
 (area_id, name, map_id, position_x, position_y, position_z, orientation, faction, icon, required_level, cooldown)
-VALUES(1537, 'The Exodar', 530, -4918.88, -940.406, 501.564, 5.42347, 1, 'Interface\\Icons\\Spell_Arcane_TeleportExodar', 0, 0);
+VALUES(3557, 'The Exodar', 530, -4918.88, -940.406, 501.564, 5.42347, 1, 'Interface\\Icons\\Spell_Arcane_TeleportExodar', 0, 0);
 INSERT IGNORE INTO acore_world.custom_travelers_recall_locations
 (area_id, name, map_id, position_x, position_y, position_z, orientation, faction, icon, required_level, cooldown)
 VALUES(3703, 'Shattrath', 530, -1838.16, 5301.79, -12.428, 5.9517, 0, 'Interface\\Icons\\Spell_Arcane_PortalShattrath', 0, 0);
