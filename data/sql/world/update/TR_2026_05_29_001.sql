@@ -3,6 +3,31 @@ UPDATE acore_world.custom_travelers_recall_locations
 SET area_id = 3557, position_x = -3965.7, position_y = -11653.6, position_z = -138.844, orientation = 0.852154
 WHERE area_id = 1357 and map_id = 530;
 
+-- Removing duplicates
+USE acore_world;
+
+DELETE t1
+FROM custom_travelers_recall_locations t1
+INNER JOIN custom_travelers_recall_locations t2
+ON t1.area_id = t2.area_id AND t1.id > t2.id;
+
+CREATE TABLE IF NOT EXISTS `custom_travelers_recall_locations` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `area_id` int NOT NULL,
+  `name` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `map_id` int NOT NULL,
+  `position_x` float NOT NULL,
+  `position_y` float NOT NULL,
+  `position_z` float NOT NULL,
+  `orientation` float NOT NULL DEFAULT '0',
+  `faction` tinyint NOT NULL DEFAULT '2',
+  `icon` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `required_level` int DEFAULT '1',
+  `cooldown` int unsigned NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`),
+  KEY `idx_area_id` (`area_id`)
+);
+
 -- New unique keys
 SET @exists = (
     SELECT COUNT(*)
@@ -21,32 +46,6 @@ SET @sql = IF(
 PREPARE stmt FROM @sql;
 EXECUTE stmt;
 DEALLOCATE PREPARE stmt;
-
-SET @exists = (
-    SELECT COUNT(*)
-    FROM information_schema.statistics
-    WHERE table_schema = 'acore_characters'
-      AND table_name = 'custom_travelers_recall_unlocks'
-      AND index_name = 'uq_guid_location'
-);
-
-SET @sql = IF(
-    @exists = 0,
-    'ALTER TABLE acore_characters.custom_travelers_recall_unlocks ADD UNIQUE KEY uq_guid_location (guid, location_id)',
-    'SELECT "Index already exists"'
-);
-
-PREPARE stmt FROM @sql;
-EXECUTE stmt;
-DEALLOCATE PREPARE stmt;
-
--- Removing duplicates
-USE acore_world;
-
-DELETE t1
-FROM custom_travelers_recall_locations t1
-INNER JOIN custom_travelers_recall_locations t2
-ON t1.area_id = t2.area_id AND t1.id > t2.id;
 
 -- New Locations
 INSERT IGNORE INTO acore_world.custom_travelers_recall_locations
