@@ -3,6 +3,14 @@ UPDATE acore_world.custom_travelers_recall_locations
 SET area_id = 3557, position_x = -3965.7, position_y = -11653.6, position_z = -138.844, orientation = 0.852154
 WHERE area_id = 1357 and map_id = 530;
 
+-- Removing duplicates
+USE acore_world;
+
+DELETE t1
+FROM custom_travelers_recall_locations t1
+INNER JOIN custom_travelers_recall_locations t2
+ON t1.area_id = t2.area_id AND t1.id > t2.id;
+
 -- New unique keys
 SET @exists = (
     SELECT COUNT(*)
@@ -39,14 +47,6 @@ SET @sql = IF(
 PREPARE stmt FROM @sql;
 EXECUTE stmt;
 DEALLOCATE PREPARE stmt;
-
--- Removing duplicates
-USE acore_world;
-
-DELETE t1
-FROM custom_travelers_recall_locations t1
-INNER JOIN custom_travelers_recall_locations t2
-ON t1.area_id = t2.area_id AND t1.id > t2.id;
 
 -- New Locations
 INSERT IGNORE INTO acore_world.custom_travelers_recall_locations
