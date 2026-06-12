@@ -30,10 +30,6 @@ PREPARE stmt FROM @sql;
 EXECUTE stmt;
 DEALLOCATE PREPARE stmt;
 
-PREPARE stmt FROM @sql;
-EXECUTE stmt;
-DEALLOCATE PREPARE stmt;
-
 -- New Locations
 INSERT IGNORE INTO acore_world.custom_travelers_recall_locations
 (area_id, name, map_id, position_x, position_y, position_z, orientation, faction, icon, required_level, cooldown)

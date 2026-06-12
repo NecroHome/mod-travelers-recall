@@ -11,3 +11,7 @@ SET @sql = IF(
     'ALTER TABLE acore_characters.custom_travelers_recall_unlocks ADD UNIQUE KEY uq_guid_location (guid, location_id)',
     'SELECT "Index already exists"'
 );
+
+PREPARE stmt FROM @sql;
+EXECUTE stmt;
+DEALLOCATE PREPARE stmt;
