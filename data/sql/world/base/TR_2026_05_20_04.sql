@@ -68,10 +68,6 @@ VALUES(2253, 'Starfall Village', 1, 7114.44, -3979.13, 745.615, 4.25675, 1, 'Int
 
 INSERT IGNORE INTO acore_world.custom_travelers_recall_locations
 (area_id, name, map_id, position_x, position_y, position_z, orientation, faction, icon, required_level, cooldown)
-VALUES(2255, 'Everlook', 1, 6725.69, -4619.44, 720.909, 4.66802, 0, 'Interface\\Icons\\Achievement_Zone_Winterspring', 0, 0);
-
-INSERT IGNORE INTO acore_world.custom_travelers_recall_locations
-(area_id, name, map_id, position_x, position_y, position_z, orientation, faction, icon, required_level, cooldown)
 VALUES(1237, 'Valormok', 1, 3608.59, -4414.43, 113.047, 1.62303, 2, 'Interface\\Icons\\Achievement_Zone_Azshara_01', 0, 0);
 
 INSERT IGNORE INTO acore_world.custom_travelers_recall_locations
