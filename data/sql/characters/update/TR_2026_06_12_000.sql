@@ -8,7 +8,7 @@ SET @exists = (
 
 SET @sql = IF(
     @exists = 0,
-    'ALTER TABLE acore_characters.custom_travelers_recall_unlocks ADD UNIQUE KEY uq_guid_location (guid, location_id)',
+    'ALTER TABLE custom_travelers_recall_unlocks ADD UNIQUE KEY uq_guid_location (guid, location_id)',
     'SELECT "Index already exists"'
 );
 
