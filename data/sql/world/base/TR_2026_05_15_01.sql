@@ -1,4 +1,4 @@
-CREATE TABLE IF NOT EXISTS `custom_travelers_recall_locations` (
+CREATE TABLE IF NOT EXISTS `acore_world`.`custom_travelers_recall_locations` (
   `id` int NOT NULL AUTO_INCREMENT,
   `area_id` int NOT NULL,
   `name` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -14,3 +14,12 @@ CREATE TABLE IF NOT EXISTS `custom_travelers_recall_locations` (
   PRIMARY KEY (`id`),
   KEY `idx_area_id` (`area_id`)
 );
+
+CREATE TABLE IF NOT EXISTS `acore_characters`.`custom_travelers_recall_unlocks` (
+  `guid` int NOT NULL,
+  `location_id` int NOT NULL,
+  `unlocked_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `cooldown_end` int unsigned NOT NULL DEFAULT '0',
+  PRIMARY KEY (`guid`,`location_id`),
+  UNIQUE KEY `uq_guid_location` (`guid`,`location_id`)
+)
