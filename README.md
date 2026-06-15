@@ -3,6 +3,8 @@
 Traveler's Recall Module
 
 ----------------------------------------------------------------------------------------
+## For AzerothCore Playerbots
+The module as first created for the Playerbots branch, it may or may not work with AzrerothCore "Vanilla"
 
 ## Description
 
