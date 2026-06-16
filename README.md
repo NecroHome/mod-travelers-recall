@@ -3,10 +3,11 @@
 Traveler's Recall Module
 
 ----------------------------------------------------------------------------------------
-## For AzerothCore Playerbots
+## For AzerothCore "Vanilla"
 The module as first created for the Playerbots branch, it may or may not work with AzeerothCore "Vanilla"
 
-An AzerothCore "Vanilla" module is in the works
+If you use the Playerbots branch, you may want bot teleport support.
+If so, use this version: [Mod Traveler's Recall - Playerbots](https://github.com/NecroHome/mod-travelers-recall/tree/main)
 
 ## Description
 
