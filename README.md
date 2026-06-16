@@ -3,6 +3,9 @@
 Traveler's Recall Module
 
 ----------------------------------------------------------------------------------------
+### BETA WARNING
+This branch is still in beta, but try it anyway
+
 ## For AzerothCore "Vanilla"
 The module as first created for the Playerbots branch, it may or may not work with AzeerothCore "Vanilla"
 
