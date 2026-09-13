@@ -255,7 +255,7 @@ VALUES
 | `orientation`    | Player facing direction after teleport             |
 | `faction`        | Faction restriction                                |
 | `icon`           | World of Warcraft icon path displayed in the addon |
-| `required_level` | Reserved for future use                            |
+| `required_level` | Min level to unlock the location                   |
 | `cooldown`       | Individual cooldown in seconds                     |
 
 ---
@@ -305,7 +305,7 @@ Example:
 .tr learn 159
 ```
 
-Unlocks the location associated with the specified area ID for the selected character.
+Unlocks the location associated with the specified area ID for the selected character or self.
 
 ### Unlock All Locations
 
@@ -314,6 +314,28 @@ Unlocks the location associated with the specified area ID for the selected char
 ```
 
 Unlocks all available Traveler's Recall locations for the selected character.
+
+### Remove a Specific Location
+
+```text
+.tr remove <area_id>
+```
+
+Example:
+
+```text
+.tr remove 159
+```
+
+Removes the location associad with the specified area ID for the selected character or self.
+
+### Remove All Locations
+
+```text
+.tr remove all
+```
+
+Remove all Traveler's Recall locations for the selected character or self.
 
 > These commands are useful for testing, administration, and verifying custom locations.
 
@@ -333,6 +355,7 @@ Unlocks all available Traveler's Recall locations for the selected character.
 
 <img width="382" height="646" alt="image" src="https://github.com/user-attachments/assets/606e409e-e99a-411f-814f-87e14b324be0" />
 <img width="388" height="647" alt="image" src="https://github.com/user-attachments/assets/07f8ad7c-f936-43d4-a463-8b1322fc0deb" />
+<img width="365" height="124" alt="image" src="https://github.com/user-attachments/assets/ce9a2e54-49b0-42f1-925c-bc1e58f583ed" />
 
 ## Author
 
@@ -342,11 +365,17 @@ NecroHome
 
 ## Change Log
 
+### 13/09/2026
+
+* Added Required Level suport
+* Added GM commands:
+  * `.tr remove <area_id>`
+  * `.tr remove all`
+
 ### 29/05/2026
 
 * Added new locations.
 * Added GM commands:
-
   * `.tr learn <area_id>`
   * `.tr learn all`
 
