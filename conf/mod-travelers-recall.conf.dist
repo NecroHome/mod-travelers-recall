@@ -31,8 +31,18 @@ TravelersRecall.CanTeleport.InDungeonOrRaid = 0
 #       Note: You can specify a custom cooldown duration in seconds for
 #       each location in the Database.
 
-TravelersREcall.UseDefaultCooldown = 1
+TravelersRecall.UseDefaultCooldown = 1
 TravelersRecall.DefaultCooldown = 3600
 
+#    Level Restriction Settings
+        Description: Configure the level restriction to unlock the area
+        Default:        0 (any player on any level can unlock all places)
+                        1 (players need to be at least the required level to unlock)
+
+        Note: The Required level is configured in the database "acore_world.custom_travelers_recall_locations"
+        change the column "required_level"
+
+TravelersRecall.UseRequiredLevel = 0
+   
 #
 ###################################################################################################

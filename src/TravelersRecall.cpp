@@ -24,6 +24,11 @@ class TravelersRecallPlayerScript : public PlayerScript
 
     void OnPlayerUpdateArea(Player* player, uint32 oldArea, uint32 newArea) override
     {
+        if (!sConfigMgr->GetOption<bool>("TravelersRecall.Enable", false))
+        {
+            return;
+        }
+
         if (player->isDead()) 
         {
             return;
@@ -34,13 +39,8 @@ class TravelersRecallPlayerScript : public PlayerScript
             return;
         }
 
-        if (!sConfigMgr->GetOption<bool>("TravelersRecall.Enable", false))
-        {
-            return;
-        }
-
         QueryResult locationResult = WorldDatabase.Query(
-            "SELECT id, name, faction, icon FROM custom_travelers_recall_locations WHERE area_id = {}",
+            "SELECT id, name, faction, icon, required_level FROM custom_travelers_recall_locations WHERE area_id = {}",
             newArea
         );
 
@@ -55,6 +55,20 @@ class TravelersRecallPlayerScript : public PlayerScript
         std::string locationName = locationFields[1].Get<std::string>();
         uint8 faction = locationFields[2].Get<uint8>();
         std::string icon = locationFields[3].Get<std::string>();
+        uint32 requiredLevel = locationFields[4].Get<uint32>();
+
+        uint32 useRequiredLevel = sConfigMgr->GetOption<uint32>("TravelersRecall.UseRequiredLevel", 0);
+
+        if (useRequiredLevel == 1) {
+            if (player->GetLevel() < requiredLevel) {
+                ChatHandler(player->GetSession()).PSendSysMessage(
+                    "You need to be at least Level {} to unlock {}",
+                    requiredLevel, locationName
+                );
+
+                return;
+            }
+        }
 
         if (!player->IsGameMaster()) 
         {
@@ -131,7 +145,9 @@ class TravelersRecallCommandScript : public CommandScript
             { "list", HandleListCommand, SEC_PLAYER, Acore::ChatCommands::Console::No },
             { "learn", HandleLearnCommand, SEC_GAMEMASTER, Acore::ChatCommands::Console::No },
             { "learn all", HandleLearnAllCommand, SEC_GAMEMASTER, Acore::ChatCommands::Console::No },
-            { "teleport", HandleTeleportCommand, SEC_PLAYER, Acore::ChatCommands::Console::No }
+            { "teleport", HandleTeleportCommand, SEC_PLAYER, Acore::ChatCommands::Console::No },
+            { "remove", HandleRemoveCommnd, SEC_GAMEMASTER, Acore::ChatCommands::Console::No },
+            { "remove all", HandleRemoveAllCommand, SEC_GAMEMASTER, Acore::ChatCommands::Console::No }
         };
 
         static Acore::ChatCommands::ChatCommandTable commandTable =
@@ -431,6 +447,80 @@ class TravelersRecallCommandScript : public CommandScript
         } while (result->NextRow());
 
         handler->SendSysMessage("Traveler's Recall: all locations unlocked.");
+
+        return true;
+    }
+
+    static bool HandleRemoveCommand(ChatHandler* handler, chat const* args) 
+    {
+        Player* target = handler->getSelectedPlayerOrSelf();
+
+        if (!target)
+        {
+            return false;
+        }
+
+        if (!args || !*args)
+        {
+            handler->SendSysMessage("Traveler's Recall: localtion id required");
+            return true;
+        }
+
+        uint32 area_id = atoi(args);
+
+        if (area_id == 0)
+        {
+            handler->SendSysMessage("Traveler's Recall: invalid area id.");
+            return true;
+        }
+
+        uint32 faction = target->GetTeamId() == TEAM_ALLIANCE ? 1 : 2;
+
+        QueryResult result = WorldDatabase.Query(
+            "SELECT id "
+            "FROM custom_travelers_recall_locations "
+            "WHERE faction IN (0, {}) "
+            "AND area_id = {}",
+            faction,
+            area_id
+        );
+
+        if (!result)
+        {
+            handler->SendSysMessage("Traveler's Recall: location not found.");
+            return true;
+        }
+
+        uint32 locationId = result->Fetch()[0].Get<uint32>();
+
+        CharacterDatabase.Execute(
+            "DELETE FROM custom_travelers_recall_unlocks "
+            "(guid, location_id, unlocked_at, cooldown_end) "
+            "VALUES ({}, {}, NOW(), 0)",
+            target->GetGUID().GetCounter(),
+            locationId
+        );
+
+        handler->SendSysMessage("Traveler's Recall: location removed.");
+        return true;
+    }
+
+    static bool HandleRemoveAllCommand(ChatHandler* handler, char const* args) 
+    {
+        Player* target = handler->getSelectedPlayerOrSelf();
+
+        if (!target)
+        {
+            return false;
+        }
+
+        CharacterDatabase.Execute(
+            "DELETE FROM custom_travelers_recall_unlocks "
+            "WHERE guid = {}",
+            player->GetGUID().GetCounter()
+        );
+
+        handler->SendSysMessage("Traveler's Recall: all locations removed.");
 
         return true;
     }
