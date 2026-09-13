@@ -154,7 +154,7 @@ World of Warcraft/
             └── TravelersRecall/
 ```
 
-The module was created for the WoW version 3.3.5a
+The module was created for the WoW version 3.5.5
 
 After installing the addon, restart the game client if necessary and verify that the addon is enabled on the character-selection screen.
 
