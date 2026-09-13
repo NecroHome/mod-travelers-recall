@@ -203,6 +203,19 @@ This configures Brill to use a two-hour cooldown.
 
 ---
 
+### Level Requirement
+
+Example:
+
+```sql
+UPDATE acore_world.custom_travelers_recall_locations
+SET required_level = 10
+WHERE area_id = 159;
+```
+This configures Brill to required at least level 10 to unlock the teleport location
+
+---
+
 ### Adding Custom Locations
 
 Custom teleport locations can be added directly to:
