@@ -158,10 +158,8 @@ class TravelersRecallCommandScript : public CommandScript
         return commandTable;
     }
 
-    static bool HandleListCommand(ChatHandler* handler, char const* args)
+    static bool SendListForPlayer(Player* player)
     {
-        Player* player = handler->GetPlayer();
-
         QueryResult unlocks = CharacterDatabase.Query(
             "SELECT location_id "
             "FROM custom_travelers_recall_unlocks "
@@ -209,6 +207,12 @@ class TravelersRecallCommandScript : public CommandScript
         } while (unlocks->NextRow());
 
         return true;
+    }
+
+    static bool HandleListCommand(ChatHandler* handler, char const* args)
+    {
+        Player* player = handler->GetPlayer();
+        return SendListForPlayer(player);
     }
 
     static bool HandleTeleportCommand(ChatHandler* handler, char const* args)
@@ -406,7 +410,7 @@ class TravelersRecallCommandScript : public CommandScript
         );
 
         handler->SendSysMessage("Traveler's Recall: location unlocked.");
-        return true;
+        return SendListForPlayer(target);
     }
 
     static bool HandleLearnAllCommand(ChatHandler* handler, char const* args) 
@@ -448,7 +452,7 @@ class TravelersRecallCommandScript : public CommandScript
 
         handler->SendSysMessage("Traveler's Recall: all locations unlocked.");
 
-        return true;
+        return SendListForPlayer(target);
     }
 
     static bool HandleRemoveCommand(ChatHandler* handler, char const* args) 
@@ -501,7 +505,7 @@ class TravelersRecallCommandScript : public CommandScript
         );
 
         handler->SendSysMessage("Traveler's Recall: location removed.");
-        return true;
+        return SendListForPlayer(target);
     }
 
     static bool HandleRemoveAllCommand(ChatHandler* handler, char const* args) 
@@ -521,7 +525,7 @@ class TravelersRecallCommandScript : public CommandScript
 
         handler->SendSysMessage("Traveler's Recall: all locations removed.");
 
-        return true;
+        return SendListForPlayer(target);
     }
 
     static bool HasUnlockedLocation(Player* player, uint32 locationId)
