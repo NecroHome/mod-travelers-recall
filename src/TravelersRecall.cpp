@@ -146,7 +146,7 @@ class TravelersRecallCommandScript : public CommandScript
             { "learn", HandleLearnCommand, SEC_GAMEMASTER, Acore::ChatCommands::Console::No },
             { "learn all", HandleLearnAllCommand, SEC_GAMEMASTER, Acore::ChatCommands::Console::No },
             { "teleport", HandleTeleportCommand, SEC_PLAYER, Acore::ChatCommands::Console::No },
-            { "remove", HandleRemoveCommnd, SEC_GAMEMASTER, Acore::ChatCommands::Console::No },
+            { "remove", HandleRemoveCommand, SEC_GAMEMASTER, Acore::ChatCommands::Console::No },
             { "remove all", HandleRemoveAllCommand, SEC_GAMEMASTER, Acore::ChatCommands::Console::No }
         };
 
