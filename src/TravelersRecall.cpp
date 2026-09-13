@@ -451,7 +451,7 @@ class TravelersRecallCommandScript : public CommandScript
         return true;
     }
 
-    static bool HandleRemoveCommand(ChatHandler* handler, chat const* args) 
+    static bool HandleRemoveCommand(ChatHandler* handler, char const* args) 
     {
         Player* target = handler->getSelectedPlayerOrSelf();
 
