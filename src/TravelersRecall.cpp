@@ -517,7 +517,7 @@ class TravelersRecallCommandScript : public CommandScript
         CharacterDatabase.Execute(
             "DELETE FROM custom_travelers_recall_unlocks "
             "WHERE guid = {}",
-            player->GetGUID().GetCounter()
+            target->GetGUID().GetCounter()
         );
 
         handler->SendSysMessage("Traveler's Recall: all locations removed.");
