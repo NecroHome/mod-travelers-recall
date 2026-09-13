@@ -16,6 +16,9 @@ If you are using the standard AzerothCore branch, use the dedicated version inst
 
 ---
 
+## 13/09/2026 UPDATE
+If you update to this new version, update the addon!
+
 ## Description
 
 Traveler's Recall is a progressive teleport system for AzerothCore.
@@ -35,6 +38,7 @@ The module handles the teleport logic, unlock progression, cooldowns, faction re
 * Player states protections
 * Custom unlockable locations
 * Bot party teleport support
+* Level requirement support
 
 ---
 
@@ -371,6 +375,8 @@ NecroHome
 * Added GM commands:
   * `.tr remove <area_id>`
   * `.tr remove all`
+ 
+# Game Addon must be updated
 
 ### 29/05/2026
 
