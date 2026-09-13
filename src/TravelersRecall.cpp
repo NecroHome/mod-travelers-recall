@@ -495,8 +495,7 @@ class TravelersRecallCommandScript : public CommandScript
 
         CharacterDatabase.Execute(
             "DELETE FROM custom_travelers_recall_unlocks "
-            "(guid, location_id, unlocked_at, cooldown_end) "
-            "VALUES ({}, {}, NOW(), 0)",
+            "WHERE guid = {} AND location_id = {}",
             target->GetGUID().GetCounter(),
             locationId
         );
