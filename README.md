@@ -329,6 +329,11 @@ Unlocks all available Traveler's Recall locations for the selected character.
 
 ---
 
+## Images
+
+<img width="382" height="646" alt="image" src="https://github.com/user-attachments/assets/606e409e-e99a-411f-814f-87e14b324be0" />
+<img width="388" height="647" alt="image" src="https://github.com/user-attachments/assets/07f8ad7c-f936-43d4-a463-8b1322fc0deb" />
+
 ## Author
 
 NecroHome
