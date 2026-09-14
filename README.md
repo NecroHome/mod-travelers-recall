@@ -104,8 +104,6 @@ Depending on your AzerothCore version and database updater configuration, these 
 
 If automatic updates are not enabled or the updates are not applied automatically, execute the SQL files manually against the appropriate databases.
 
-> Always verify the `worldserver` console output to confirm that the module's SQL updates were successfully applied.
-
 ---
 
 ### 1.4. Install the Module Configuration
@@ -125,7 +123,7 @@ mod-travelers-recall.conf
 Example:
 
 ```bash
-cp /path/to/azerothcore/env/dist/etc/modules/mod-travelers-recall.conf.dist \
+cp /path/to/azerothcore/modules/mod-travelers-recall.conf.dist \
    /path/to/azerothcore/env/dist/etc/modules/mod-travelers-recall.conf
 ```
 
@@ -140,7 +138,7 @@ azerothcore/
                 └── mod-travelers-recall.conf
 ```
 
-If your AzerothCore version automatically copies module configuration files during the build or installation process, verify whether the file has already been placed in the `conf` directory before copying it manually.
+If your AzerothCore version automatically copies module configuration files during the build or installation process, verify whether the file has already been placed in the `env/dist/etc/modules` directory before copying it manually.
 
 ---
 
@@ -232,13 +230,13 @@ The `faction` column controls the faction restriction for that location.
 
 * `0`
 
-  * Location is `Neutral` and both factions can unlock it.
+  * Location is `Neutral territory` and both factions can unlock it.
 * `1`
 
-  * Location is Alliance territory. Only Alliance players can unlock it.
+  * Location is `Alliance territory`. Only Alliance players can unlock it.
 * `2`
 
-  * Location is Horde territory. Only Horde players can unlock it.
+  * Location is `Horde territory`. Only Horde players can unlock it.
 
 Example:
 
@@ -248,7 +246,7 @@ SET faction = 0
 WHERE area_id = 159;
 ```
 
-This configures Brill as a `Neutral` location, allowing both Alliance and Horde players to unlock it.
+This configures Brill as a `Neutral territory`, allowing both Alliance and Horde players to unlock it.
 
 ---
 
@@ -313,7 +311,7 @@ VALUES
 
 ---
 
-### 3.6. Retrieving Area Information
+### 2.6. Retrieving Area Information
 
 To retrieve the information required for a custom location, stand at the desired location in-game and execute:
 
