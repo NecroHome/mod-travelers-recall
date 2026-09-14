@@ -17,7 +17,10 @@ If you are using the standard AzerothCore branch, use the dedicated version inst
 ---
 
 ## 13/09/2026 UPDATE
-If you update to this new version, update the addon!
+
+**Important:** If you update the module to this version, make sure to update the client addon as well.
+
+---
 
 ## Description
 
@@ -25,7 +28,7 @@ Traveler's Recall is a progressive teleport system for AzerothCore.
 
 Players unlock teleport locations by discovering cities and important places throughout the world. Once a location has been unlocked, it becomes available through the Traveler's Recall client addon.
 
-The module handles the teleport logic, unlock progression, cooldowns, faction restrictions, and player-state validation.
+The module handles teleport logic, unlock progression, cooldowns, faction restrictions, and player-state validation.
 
 ---
 
@@ -35,7 +38,7 @@ The module handles the teleport logic, unlock progression, cooldowns, faction re
 * Custom teleport window integration
 * Global or individual teleport cooldowns
 * Faction restrictions
-* Player states protections
+* Player state protections
 * Custom unlockable locations
 * Bot party teleport support
 * Level requirement support
@@ -60,9 +63,9 @@ or by clicking the minimap button.
 
 ---
 
-## Installation
+## 1. Installation
 
-### 1. Clone the Module
+### 1.1. Clone the Module
 
 Clone this repository into the `modules` directory of your AzerothCore source tree.
 
@@ -73,7 +76,7 @@ cd /path/to/azerothcore/modules
 git clone https://github.com/NecroHome/mod-travelers-recall.git
 ```
 
-### 2. Rebuild AzerothCore
+### 1.2. Rebuild AzerothCore
 
 After cloning the module, rebuild AzerothCore following the normal build process for your environment.
 
@@ -81,7 +84,7 @@ The exact build command may vary depending on your operating system and build co
 
 ---
 
-### 3. Apply the Database Updates
+### 1.3. Apply the Database Updates
 
 The module provides SQL updates for the following databases:
 
@@ -105,7 +108,7 @@ If automatic updates are not enabled or the updates are not applied automaticall
 
 ---
 
-### 4. Install the Module Configuration
+### 1.4. Install the Module Configuration
 
 The repository includes a default configuration template:
 
@@ -122,7 +125,7 @@ mod-travelers-recall.conf
 Example:
 
 ```bash
-cp /path/to/azerothcore/env/dist/etc/modules/mod-travelers-recall.conf.dist
+cp /path/to/azerothcore/env/dist/etc/modules/mod-travelers-recall.conf.dist \
    /path/to/azerothcore/env/dist/etc/modules/mod-travelers-recall.conf
 ```
 
@@ -130,18 +133,18 @@ Your resulting structure should look similar to:
 
 ```text
 azerothcore/
-├── env
-    ├── dist
-        ├── etc
-            ├── modules
-                ├── mod-travelers-recall.conf
+└── env/
+    └── dist/
+        └── etc/
+            └── modules/
+                └── mod-travelers-recall.conf
 ```
 
 If your AzerothCore version automatically copies module configuration files during the build or installation process, verify whether the file has already been placed in the `conf` directory before copying it manually.
 
 ---
 
-### 5. Install the Client Addon
+### 1.5. Install the Client Addon
 
 Download the addon from its separate repository:
 
@@ -153,20 +156,20 @@ The final directory structure should look similar to:
 
 ```text
 World of Warcraft/
-    └── Interface/
-        └── AddOns/
-            └── TravelersRecall/
+└── Interface/
+    └── AddOns/
+        └── TravelersRecall/
 ```
 
-The module was created for the WoW version 3.5.5
+The module was created for WoW version **3.5.5**.
 
 After installing the addon, restart the game client if necessary and verify that the addon is enabled on the character-selection screen.
 
 ---
 
-## Customization
+## 2. Customization
 
-### Individual Cooldowns
+### 2.1. Individual Cooldowns
 
 Teleport locations are stored in:
 
@@ -178,10 +181,9 @@ The `cooldown` column controls the cooldown for each individual location.
 
 * `0`
   * Uses the global cooldown configured by the module
+  * If `TravelersRecall.UseDefaultCooldown` is set to `1` in the configuration file, all locations will have a default cooldown configured by `TravelersRecall.DefaultCooldown`.
 * Greater than `0`
   * Uses an individual cooldown value in seconds
-
-Examples:
 
 ```text
 3600  = 1 hour
@@ -201,15 +203,16 @@ This configures Brill to use a two-hour cooldown.
 
 ---
 
-### Level Requirement
+### 2.2. Level Requirement
 
 The `required_level` column controls the required level for each individual location.
 
 * `0`
+
   * Location has no level requirement
 * Greater than `0`
-  * If enabled in the configuration file `TravelersRecall.UseRequiredLevel = 1` players must be at least that level to unlock that location.
 
+  * If `TravelersRecall.UseRequiredLevel` is set to `1` in the configuration file, players must be at least the specified level to unlock that location.
 
 Example:
 
@@ -218,20 +221,24 @@ UPDATE acore_world.custom_travelers_recall_locations
 SET required_level = 10
 WHERE area_id = 159;
 ```
-This configures Brill to required at least level 10 to unlock the teleport location
+
+This configures Brill to require at least level 10 to unlock the teleport location.
 
 ---
 
-### Faction Restriction
+### 2.3. Faction Restriction
 
-The `faction` column controls the Faction restriction for that location.
+The `faction` column controls the faction restriction for that location.
 
 * `0`
-  * Location is `Neutral` and both Factions can unlock that location.
+
+  * Location is `Neutral` and both factions can unlock it.
 * `1`
-  * Location is `Alliance` teritory and only Alliance players can unlock that location.
+
+  * Location is Alliance territory. Only Alliance players can unlock it.
 * `2`
-  * Location is `Horde` teritory and only Horde players can unclock that location.
+
+  * Location is Horde territory. Only Horde players can unlock it.
 
 Example:
 
@@ -241,11 +248,11 @@ SET faction = 0
 WHERE area_id = 159;
 ```
 
-This configures Brill to the a `Neutral` location, both Alliance and Horde players can unlock.
+This configures Brill as a `Neutral` location, allowing both Alliance and Horde players to unlock it.
 
 ---
 
-### Adding Custom Locations
+### 2.4. Adding Custom Locations
 
 Custom teleport locations can be added directly to:
 
@@ -290,7 +297,7 @@ VALUES
 
 ---
 
-### Column Explanation
+### 2.5. Column Explanation
 
 | Column           | Description                                        |
 | ---------------- | -------------------------------------------------- |
@@ -301,12 +308,12 @@ VALUES
 | `orientation`    | Player facing direction after teleport             |
 | `faction`        | Faction restriction                                |
 | `icon`           | World of Warcraft icon path displayed in the addon |
-| `required_level` | Min level to unlock the location                   |
+| `required_level` | Minimum level required to unlock the location      |
 | `cooldown`       | Individual cooldown in seconds                     |
 
 ---
 
-### Retrieving Area Information
+### 3.6. Retrieving Area Information
 
 To retrieve the information required for a custom location, stand at the desired location in-game and execute:
 
@@ -325,11 +332,11 @@ Use these values when creating a custom teleport location.
 
 ---
 
-## GM Commands
+## 3. GM Commands
 
 The module provides GM commands for testing and manually unlocking locations.
 
-### Unlock a Specific Location
+### 3.1. Unlock a Specific Location
 
 ```text
 .tr learn <area_id>
@@ -341,9 +348,9 @@ Example:
 .tr learn 159
 ```
 
-This unnlocks `Brill` for the selected player or self.
+This unlocks `Brill` for the selected player or yourself.
 
-### Unlock All Locations
+### 3.2. Unlock All Locations
 
 ```text
 .tr learn all
@@ -351,7 +358,7 @@ This unnlocks `Brill` for the selected player or self.
 
 Unlocks all available Traveler's Recall locations for the selected character.
 
-### Remove a Specific Location
+### 3.3. Remove a Specific Location
 
 ```text
 .tr remove <area_id>
@@ -363,28 +370,28 @@ Example:
 .tr remove 159
 ```
 
-This removes `Brill` from the selected player or self.
+This removes `Brill` from the selected player or yourself.
 
-### Remove All Locations
+### 3.4. Remove All Locations
 
 ```text
 .tr remove all
 ```
 
-Remove all Traveler's Recall locations for the selected player or self.
+Removes all Traveler's Recall locations from the selected player or yourself.
 
 ---
 
-## Notes
+## 4. Notes
 
 * No `worldserver` restart is required after adding new locations to the database.
-* No `worldserver` restart is required when updating faction or required level, but those who already have that location unlocked will keep it
+* No `worldserver` restart is required when updating faction or required level, but players who already have that location unlocked will keep it.
 * Players who are already inside an area must leave and re-enter the area before the location is detected and unlocked.
 * Icons use standard World of Warcraft client icon paths.
 
 ---
 
-## Images
+## 5. Images
 
 <img width="382" height="646" alt="image" src="https://github.com/user-attachments/assets/606e409e-e99a-411f-814f-87e14b324be0" />
 <img width="388" height="647" alt="image" src="https://github.com/user-attachments/assets/07f8ad7c-f936-43d4-a463-8b1322fc0deb" />
@@ -392,39 +399,41 @@ Remove all Traveler's Recall locations for the selected player or self.
 
 ---
 
-## F.A.Q
+## 6. FAQ
 
-Q: Can i contact you?
+Q: Can I contact you?
 
 A: Yes!
 
 Q: I have an idea for the module!
 
-A: Thats not a question, but feel free to open a feature request!
+A: That's not a question, but feel free to open a feature request!
 
 ---
 
-## Author
+## 7. Author
 
 NecroHome
 
 ---
 
-## Change Log
+## 8. Change Log
 
 ### 13/09/2026
 
-* Added Required Level suport
+* Added Required Level support
 * Added GM commands:
+
   * `.tr remove <area_id>`
   * `.tr remove all`
- 
+
 # Game Addon must be updated
 
 ### 29/05/2026
 
 * Added new locations.
 * Added GM commands:
+
   * `.tr learn <area_id>`
   * `.tr learn all`
 
