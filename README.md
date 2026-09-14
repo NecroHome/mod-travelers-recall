@@ -177,10 +177,8 @@ acore_world.custom_travelers_recall_locations
 The `cooldown` column controls the cooldown for each individual location.
 
 * `0`
-
   * Uses the global cooldown configured by the module
 * Greater than `0`
-
   * Uses an individual cooldown value in seconds
 
 Examples:
@@ -205,6 +203,14 @@ This configures Brill to use a two-hour cooldown.
 
 ### Level Requirement
 
+The `required_level` column controls the required level for each individual location.
+
+* `0`
+  * Location has no level requirement
+* Greater than `0`
+  * If enabled in the configuration file `TravelersRecall.UseRequiredLevel = 1` players must be at least that level to unlock that location.
+
+
 Example:
 
 ```sql
@@ -213,6 +219,29 @@ SET required_level = 10
 WHERE area_id = 159;
 ```
 This configures Brill to required at least level 10 to unlock the teleport location
+
+---
+
+### Faction Restriction
+
+The `faction` column controls the Faction restriction for that location.
+
+* `0`
+  * Location is `Neutral` and both Factions can unlock that location.
+* `1`
+  * Location is `Alliance` teritory and only Alliance players can unlock that location.
+* `2`
+  * Location is `Horde` teritory and only Horde players can unclock that location.
+
+Example:
+
+```sql
+UPDATE acore_world.custom_travelers_recall_locations
+SET faction = 0
+WHERE area_id = 159;
+```
+
+This configures Brill to the a `Neutral` location, both Alliance and Horde players can unlock.
 
 ---
 
@@ -277,16 +306,6 @@ VALUES
 
 ---
 
-### Faction Values
-
-| Value | Faction  |
-| ----- | -------- |
-| `0`   | Neutral  |
-| `1`   | Alliance |
-| `2`   | Horde    |
-
----
-
 ### Retrieving Area Information
 
 To retrieve the information required for a custom location, stand at the desired location in-game and execute:
@@ -322,7 +341,7 @@ Example:
 .tr learn 159
 ```
 
-Unlocks the location associated with the specified area ID for the selected character or self.
+This unnlocks `Brill` for the selected player or self.
 
 ### Unlock All Locations
 
@@ -344,7 +363,7 @@ Example:
 .tr remove 159
 ```
 
-Removes the location associad with the specified area ID for the selected character or self.
+This removes `Brill` from the selected player or self.
 
 ### Remove All Locations
 
@@ -352,19 +371,16 @@ Removes the location associad with the specified area ID for the selected charac
 .tr remove all
 ```
 
-Remove all Traveler's Recall locations for the selected character or self.
-
-> These commands are useful for testing, administration, and verifying custom locations.
+Remove all Traveler's Recall locations for the selected player or self.
 
 ---
 
 ## Notes
 
 * No `worldserver` restart is required after adding new locations to the database.
+* No `worldserver` restart is required when updating faction or required level, but those who already have that location unlocked will keep it
 * Players who are already inside an area must leave and re-enter the area before the location is detected and unlocked.
 * Icons use standard World of Warcraft client icon paths.
-* The client addon is maintained separately from this module.
-* Database changes should be made carefully, especially when modifying existing locations.
 
 ---
 
@@ -373,6 +389,20 @@ Remove all Traveler's Recall locations for the selected character or self.
 <img width="382" height="646" alt="image" src="https://github.com/user-attachments/assets/606e409e-e99a-411f-814f-87e14b324be0" />
 <img width="388" height="647" alt="image" src="https://github.com/user-attachments/assets/07f8ad7c-f936-43d4-a463-8b1322fc0deb" />
 <img width="365" height="124" alt="image" src="https://github.com/user-attachments/assets/ce9a2e54-49b0-42f1-925c-bc1e58f583ed" />
+
+---
+
+## F.A.Q
+
+Q: Can i contact you?
+
+A: Yes!
+
+Q: I have an idea for the module!
+
+A: Thats not a question, but feel free to open a feature request!
+
+---
 
 ## Author
 
