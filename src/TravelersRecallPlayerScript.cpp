@@ -98,7 +98,12 @@ void TravelersRecallPlayerScript::OnPlayerDelete(ObjectGuid guid, uint32 account
         guid.GetCounter());
 }
 
-void TravelersRecallPlayerScript::OnPlayerCreated(ObjectGuid guid, uint32 account) 
+void TravelersRecallPlayerScript::OnPlayerCreate(Player* player)
 {
-    
+
+}
+
+void TravelersRecallPlayerScript::OnPlayerLogin(Player* player)
+{
+
 }
