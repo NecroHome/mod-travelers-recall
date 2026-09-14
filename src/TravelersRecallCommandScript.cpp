@@ -1,6 +1,45 @@
 #include "TravelersRecallCommandScript.h"
 #include "TravelersRecallService.h"
 
+namespace
+{
+    std::string BuildCooldownRemainingText(uint32 remainingSeconds)
+    {
+        uint32 hours = remainingSeconds / 3600;
+        uint32 minutes = (remainingSeconds % 3600) / 60;
+        uint32 seconds = remainingSeconds % 60;
+
+        std::vector<std::string> parts;
+
+        if (hours > 0)
+        {
+            parts.push_back(Acore::StringFormat("{} hour{}", hours, hours == 1 ? "" : "s"));
+        }
+
+        if (minutes > 0)
+        {
+            parts.push_back(Acore::StringFormat("{} min{}", minutes, minutes == 1 ? "" : "s"));
+        }
+
+        if (seconds > 0 || parts.empty())
+        {
+            parts.push_back(Acore::StringFormat("{} sec", seconds));
+        }
+
+        std::string message;
+        for (size_t i = 0; i < parts.size(); ++i)
+        {
+            if (i > 0)
+            {
+                message += " ";
+            }
+            message += parts[i];
+        }
+
+        return message;
+    }
+}
+
 TravelersRecallCommandScript::TravelersRecallCommandScript()
     : CommandScript("TravelersRecallCommandScript")
 {
@@ -103,7 +142,6 @@ bool TravelersRecallCommandScript::HandleTeleportCommand(ChatHandler* handler, c
     float y = fields[2].Get<float>();
     float z = fields[3].Get<float>();
     float o = fields[4].Get<float>();
-
     std::string locationName = fields[5].Get<std::string>();
     uint32 cooldown = fields[6].Get<uint32>();
 
@@ -127,14 +165,12 @@ bool TravelersRecallCommandScript::HandleTeleportCommand(ChatHandler* handler, c
             if (cooldownEnd > now)
             {
                 uint32 remaining = cooldownEnd - now;
-                uint32 remainingMinutes = remaining / 60;
-                uint32 remainingSeconds = remaining % 60;
+                std::string remainingText = BuildCooldownRemainingText(remaining);
 
                 handler->PSendSysMessage(
-                    "Traveler's Recall: cooldown remaining for {}: {} min {} sec.",
+                    "Traveler's Recall: cooldown remaining for {}: {}.",
                     locationName,
-                    remainingMinutes,
-                    remainingSeconds);
+                    remainingText);
 
                 return true;
             }
