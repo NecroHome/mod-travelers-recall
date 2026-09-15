@@ -420,6 +420,10 @@ NecroHome
 
 ## 8. Change Log
 
+### 15/09/2026
+
+* Code refactor, no new features, no need to update, just prepering the ground.
+
 ### 13/09/2026
 
 * Added Required Level support
